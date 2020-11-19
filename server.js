@@ -3,7 +3,7 @@ const express = require('express');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const AWS = require('aws-sdk');
-const { v4: uuidv4 } = require('uuid');
+// const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 const PORT = 3000;
@@ -32,7 +32,10 @@ const upload = multer({
             cb(null, {fieldName: "TESTING_META_DATA"});
         },
         key: function (req, file, cb) {
-            cb(null, Date.now().toString())
+            let myImage = file.originalname.split(".");
+            const fileType = myImage[myImage.length - 1];
+
+            cb(null, `${Date.now().toString()}.${fileType}`)
         }
     })
 });
